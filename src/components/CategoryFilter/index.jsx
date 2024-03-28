@@ -1,5 +1,4 @@
 // CategoryFilter.js
-// CategoryFilter.js
 import React, { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import useStore from '../../core/store/store';
@@ -23,7 +22,7 @@ const CategoryFilter = () => {
       onValueChange={handleValueChange}
     >
       <Picker.Item label="Todos" value="Todos" />
-      {categories.map((category, index) => (
+      {categories && categories.map((category, index) => (
         <Picker.Item key={index} label={category} value={category} />
       ))}
     </Picker>

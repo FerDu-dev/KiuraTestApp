@@ -29,7 +29,7 @@ const Products = () => {
 
   return (
     <View>
-       <CategoryFilter />
+      <CategoryFilter />
       <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}

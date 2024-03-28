@@ -95,8 +95,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   price: {
-    fontSize: 20,
+    fontSize: 25,
     color: '#173B48',
+    fontWeight: 'bold',
   },
   details: {
     fontSize: 16,

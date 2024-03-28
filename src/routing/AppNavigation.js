@@ -5,7 +5,7 @@ import Products from '../pages/Products';
 import ProductDetails from '../pages/ProductDetail';
 import { Ionicons } from '@expo/vector-icons';
 import useCartStore from '../core/store/cartStore';
-import { View, Text, FlatList, Button } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import Cart from '../pages/Cart';
 import { Alert } from 'react-native';
 
@@ -26,6 +26,12 @@ const AppNavigator = () => {
           name="FurniPro App"
           component={Products}
           options={({ navigation }) => ({
+            headerLeft: () => (
+              <Image
+                source={require('../../assets/logoFurniPro.png')} 
+                style={{ width: 50, height: 50, marginLeft: 10 }} 
+              />
+            ),
             headerRight: () => (
               <View style={{ flexDirection: 'row', marginRight: 10 }}>
                 <Ionicons
