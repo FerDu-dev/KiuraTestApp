@@ -1,29 +1,44 @@
 import React, { useEffect } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { fetchProducts } from '../core/api';
-import { useStore } from '../core/store';
+import { View, Text, FlatList, Button } from 'react-native';
+import ProductCard from '../../components/ProductCard';
+import { useStore } from '../../core/store/store';
+import { useNavigation } from '@react-navigation/native';
+import { fetchProductDetails } from '../../core/api/api';
+import useCartStore from '../../core/store/cartStore';
+import CategoryFilter from '../../components/CategoryFilter';
 
 const Products = () => {
-  const products = useStore((state) => state.products);
-  const setProducts = useStore((state) => state.setProducts);
+  const { products, loadProducts, loadCategories } = useStore();
+  const { addItemToCart } = useCartStore();
+  const navigation = useNavigation();
+  
 
   useEffect(() => {
-    const getProducts = async () => {
-      const products = await fetchProducts();
-      setProducts(products);
-    };
-
-    getProducts();
+    loadProducts();
+    loadCategories();
   }, []);
+
+  const handleAddToCart = (product) => {
+    addItemToCart(product);
+  };
+
+  const handleViewDetails = async (product) => {
+    const productDetails = await fetchProductDetails(product.id);
+    navigation.navigate('Detalles del producto', { product: productDetails });
+  };
 
   return (
     <View>
-      <Text>Productos</Text>
+       <CategoryFilter />
       <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <Text>{item.name}</Text>
+          <ProductCard
+            product={item}
+            onAddToCart={handleAddToCart}
+            onViewDetails={handleViewDetails}
+          />
         )}
       />
     </View>

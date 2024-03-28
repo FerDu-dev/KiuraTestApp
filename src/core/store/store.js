@@ -1,17 +1,24 @@
-import create from 'zustand';
+import { create } from 'zustand';
+import { fetchProducts, fetchCategories, fetchProductsByCategory } from '../api/api';
 
-// Estado inicial
-const initialState = {
+export const useStore = create((set) => ({
   products: [],
   cart: [],
-};
+  loadProducts: async () => {
+    const data = await fetchProducts();
+    set({ products: data.products });
+  },
+  addToCart: (product) => set((state) => ({ cart: [...state.cart, product] })),
+  removeFromCart: (productId) => set((state) => ({ cart: state.cart.filter((product) => product.id !== productId) })),
 
-// Acciones para manipular el estado
-const actions = (set) => ({
-  setProducts: (products) => set((state) => ({ ...state, products })),
-  addToCart: (product) => set((state) => ({ ...state, cart: [...state.cart, product] })),
-  removeFromCart: (productId) => set((state) => ({ ...state, cart: state.cart.filter((product) => product.id !== productId) })),
-});
+  loadCategories: async () => {
+    const data = await fetchCategories();
+    set({ categories: data });
+  },
+  loadProductsByCategory: async (category) => {
+    const data = await fetchProductsByCategory(category);
+    set({ products: data.products });
+  },  
+}));
 
-// Crear el store con Zustand
-export const useStore = create(() => ({ ...initialState, ...actions }));
+export default useStore;
